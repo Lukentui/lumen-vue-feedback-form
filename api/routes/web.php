@@ -13,6 +13,14 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    // crud, create
+    $router->group(['prefix' => 'create'], function () use ($router) {
+        $router->put('feedback', 'FeedbackController@create');
+    });
+
+    // crud, update
+    // $router->group(['prefix' => 'update'], function () use ($router) {
+    //     $router->put('feedback', 'FeedbackController@update');
+    // });
 });
