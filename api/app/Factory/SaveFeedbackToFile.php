@@ -17,6 +17,6 @@ class SaveFeedbackToFile implements SaveFeedbackFactory
         $row = "{$request->input('name')} | {$request->input('phone')} | {$request->input('comment')}";
 
         file_put_contents('../feedbacks.txt', $append . $row);
-        return 228;
+        return true;
     }
 }

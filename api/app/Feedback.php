@@ -28,7 +28,7 @@ class Feedback extends Model
      * @return bool Is operation success
      */
     public static function createFeedbackRecord(Request $request) {
-        return Feedback::callFeedbackCreator(new Factory\SaveFeedbackToFile, $request);
-//        return Feedback::callFeedbackCreator(new Factory\SaveFeedbackToDb, $request);
+//        return Feedback::callFeedbackCreator(new Factory\SaveFeedbackToFile, $request);
+        return Feedback::callFeedbackCreator(new Factory\SaveFeedbackToDb, $request);
     }
 }

@@ -35,7 +35,7 @@
           <div class="feedback-form--send">
             <div class="filling-progress">{{ readyFieldsNumber }} из 3-х полей...</div>
             <div>
-              <button type="submit" :disabled="!isFormReady">Отправить</button>
+              <button type="submit" :disabled="!isFormReady || loading">{{ loading ? "Загрузка.." : "Отправить" }}</button>
             </div>
           </div>
         </form>
@@ -77,6 +77,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       form: {
         name: '',
         phone: '',
@@ -85,8 +86,36 @@ export default {
     }
   },
   methods: {
-    submit () {
-      console.warn(this)
+    async submit () {
+      this.formLoadingState(true)
+
+      try {
+        const response = await this.axios.put('http://localhost:8000/v1/create/feedback', this.form)
+
+        if (response.data.success === true) {
+          // i should use beautiful toast lib instead alert()
+          this.formLoadingState(false)
+          alert('Ваше сообщение отправлено! Ожидайте звонка.')
+          return
+        }
+      } catch (e) {
+        console.error(e)
+      }
+
+      alert('К сожалению, что-то пошло не так(')
+      this.formLoadingState(false)
+    },
+
+    formLoadingState (state) {
+      this.loading = state
+
+      // clear form if you wanna
+      // stop loading
+      if (state === false) {
+        for (const field in this.form) {
+          this.form[field] = ''
+        }
+      }
     }
   }
 }
